@@ -8,7 +8,7 @@ import WeatherDisplay from './WeatherDisplay';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <WeatherDisplay />
+    <WeatherMenu />
   </React.StrictMode>
 );
 
