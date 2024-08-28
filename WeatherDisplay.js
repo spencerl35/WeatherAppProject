@@ -1,176 +1,62 @@
 import { Box, Button, Divider, Stack, Card, Typography } from '@mui/material';
-import NightlightIcon from '@mui/icons-material/Nightlight';
-import WbSunnyIcon from '@mui/icons-material/WbSunny';
+import NorthIcon from '@mui/icons-material/North';
+import NorthEastIcon from '@mui/icons-material/NorthEast';
+import NorthWestIcon from '@mui/icons-material/NorthWest';
+import EastIcon from '@mui/icons-material/East';
+import SouthIcon from '@mui/icons-material/South';
+import SouthEastIcon from '@mui/icons-material/SouthEast';
 import SouthWestIcon from '@mui/icons-material/SouthWest';
+import WestIcon from '@mui/icons-material/West';
 import * as React from 'react';
+import {dailyWeatherData, hourlyPeriods, uvVal} from './apiProcessing';
+import HourComponent from './HourComponent';
 
-function WeatherDisplay() {
-
-    let zeroPeriod = {'precipProb': '35%', 'icon': 'WbSunnyIcon', 'temp': 67, 'time': '12 PM'};
-
-    const HourlyIconComponent = ({period}) => {
-        if(period.icon === 'NightlightIcon') {
-            return <NightlightIcon/>;
-        } else if(period.icon === 'WbSunnyIcon') {
-            return <WbSunnyIcon/>
-        } else {
-            return null;
-        }
+const WindDirectionIcon = ({day}) => {
+    let direction = day.windDirection;
+    if(direction.length > 2) {
+        direction = direction.substring(1);
     }
 
+        if(direction === 'N') {
+            return <NorthIcon sx={{fontSize: 70}}/>;
+        } else if(direction === 'NE') {
+            return <NorthEastIcon sx={{fontSize: 70}}/>;
+        } else if (direction === 'NW') {
+            return <NorthWestIcon sx={{fontSize: 70}}/>;
+        } else if (direction === 'E') {
+            return <EastIcon sx={{fontSize: 70}}/>;
+        } else if (direction === 'S') {
+            return <SouthIcon sx={{fontSize: 70}}/>;
+        } else if (direction === 'SE') {
+            return <SouthEastIcon sx={{fontSize: 70}}/>;
+        } else if (direction === 'SW') {
+            return <SouthWestIcon sx={{fontSize: 70}}/>;
+        } else if (direction === 'W') {
+            return <WestIcon sx={{fontSize: 70}}/>;
+        }
+}
+
+function WeatherDisplay({ setHomePage }) { 
 return(
 <Box sx={{background: 'linear-gradient(to bottom right, #15719f, #95d6ea)', height: '100vh', width: '100vw', display: 'flex', flexDirection: 'column' , justifyContent: 'space-around'}}>
-    <Button variant='filled' sx={{backgroundColor: 'white', color: 'black', align: 'center', ":hover": {backgroundColor: '#F8F83E'}, position: 'relative', left: '1vw', height: '4vh', width: '98vw', fontSize: '2vh'}}>
+    <Button onClick={() => setHomePage(true)} variant='filled' sx={{backgroundColor: 'white', color: 'black', align: 'center', ":hover": {backgroundColor: '#F8F83E'}, position: 'relative', left: '1vw', height: '4vh', width: '98vw', fontSize: '2vh'}}>
         Choose New Location
     </Button>
     <Box sx={{position: 'relative', left: '1vw', background: '#15719f', display: 'flex', flexDirection: 'column', width: '98vw', height: '92vh', borderRadius: '25px'}}>
         <Box sx={{padding: '10px 10px'}}>
             <Stack direction={'row'} spacing={2} sx={{ overflow: 'auto'}}>
-                <Card sx={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '10px 10px', minWidth: '13vw', minHeight: '14vh' , borderRadius: '20px'}}>
-                    <Box sx={{display: 'flex', justifyContent: 'center'}}>
-                        <Typography>{zeroPeriod.time}</Typography>
-                    </Box>
-                    <Box alignItems={'center'} sx={{display: 'flex', flexDirection: 'column'}}>
-                        <HourlyIconComponent period={zeroPeriod}/>
-                        <Typography>{zeroPeriod.precipProb}</Typography>
-                    </Box>
-                    <Divider/>
-                    <Box sx={{textAlign: 'center'}}>
-                        <Typography>{zeroPeriod.temp}&deg;F</Typography>
-                    </Box>
-                </Card>
-                <Card sx={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '10px 10px', minWidth: '13vw', borderRadius: '20px'}}>
-                    <Box sx={{display: 'flex', justifyContent: 'center'}}>
-                        <Typography>1 PM</Typography>
-                    </Box>
-                    <Box sx={{display: 'flex', justifyContent: 'center'}}>
-                        <NightlightIcon/>
-                    </Box>
-                    <Divider/>
-                    <Box sx={{textAlign: 'center'}}>
-                        <Typography>98&deg;F</Typography>
-                    </Box>
-                </Card>
-                <Card sx={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '10px 10px', minWidth: '13vw', borderRadius: '20px'}}>
-                    <Box sx={{display: 'flex', justifyContent: 'center'}}>
-                        <Typography>2 PM</Typography>
-                    </Box>
-                    <Box sx={{display: 'flex', justifyContent: 'center'}}>
-                        <NightlightIcon/>
-                    </Box>
-                    <Divider/>
-                    <Box sx={{textAlign: 'center'}}>
-                        <Typography>98&deg;F</Typography>
-                    </Box>
-                </Card>
-                <Card sx={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '10px 10px', minWidth: '13vw', borderRadius: '20px'}}>
-                    <Box sx={{display: 'flex', justifyContent: 'center'}}>
-                        <Typography>3 PM</Typography>
-                    </Box>
-                    <Box sx={{display: 'flex', justifyContent: 'center'}}>
-                        <NightlightIcon/>
-                    </Box>
-                    <Divider/>
-                    <Box sx={{textAlign: 'center'}}>
-                        <Typography>98&deg;F</Typography>
-                    </Box>
-                </Card>
-                <Card sx={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '10px 10px', minWidth: '13vw', borderRadius: '20px'}}>
-                    <Box sx={{display: 'flex', justifyContent: 'center'}}>
-                        <Typography>4 PM</Typography>
-                    </Box>
-                    <Box sx={{display: 'flex', justifyContent: 'center'}}>
-                        <NightlightIcon/>
-                    </Box>
-                    <Divider/>
-                    <Box sx={{textAlign: 'center'}}>
-                        <Typography>98&deg;F</Typography>
-                    </Box>
-                </Card>
-                <Card sx={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '10px 10px', minWidth: '13vw', borderRadius: '20px'}}>
-                    <Box sx={{display: 'flex', justifyContent: 'center'}}>
-                        <Typography>5 PM</Typography>
-                    </Box>
-                    <Box sx={{display: 'flex', justifyContent: 'center'}}>
-                        <NightlightIcon/>
-                    </Box>
-                    <Divider/>
-                    <Box sx={{textAlign: 'center'}}>
-                        <Typography>98&deg;F</Typography>
-                    </Box>
-                </Card>
-                <Card sx={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '10px 10px', minWidth: '13vw', borderRadius: '20px'}}>
-                    <Box sx={{display: 'flex', justifyContent: 'center'}}>
-                        <Typography>6 PM</Typography>
-                    </Box>
-                    <Box sx={{display: 'flex', justifyContent: 'center'}}>
-                        <NightlightIcon/>
-                    </Box>
-                    <Divider/>
-                    <Box sx={{textAlign: 'center'}}>
-                        <Typography>98&deg;F</Typography>
-                    </Box>
-                </Card>
-                <Card sx={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '10px 10px', minWidth: '13vw', borderRadius: '20px'}}>
-                    <Box sx={{display: 'flex', justifyContent: 'center'}}>
-                        <Typography>7 PM</Typography>
-                    </Box>
-                    <Box sx={{display: 'flex', justifyContent: 'center'}}>
-                        <NightlightIcon/>
-                    </Box>
-                    <Divider/>
-                    <Box sx={{textAlign: 'center'}}>
-                        <Typography>98&deg;F</Typography>
-                    </Box>
-                </Card>
-                <Card sx={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '10px 10px', minWidth: '13vw', borderRadius: '20px'}}>
-                    <Box sx={{display: 'flex', justifyContent: 'center'}}>
-                        <Typography>8 PM</Typography>
-                    </Box>
-                    <Box sx={{display: 'flex', justifyContent: 'center'}}>
-                        <NightlightIcon/>
-                    </Box>
-                    <Divider/>
-                    <Box sx={{textAlign: 'center'}}>
-                        <Typography>98&deg;F</Typography>
-                    </Box>
-                </Card>
-                <Card sx={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '10px 10px', minWidth: '13vw', borderRadius: '20px'}}>
-                    <Box sx={{display: 'flex', justifyContent: 'center'}}>
-                        <Typography>9 PM</Typography>
-                    </Box>
-                    <Box sx={{display: 'flex', justifyContent: 'center'}}>
-                        <NightlightIcon/>
-                    </Box>
-                    <Divider/>
-                    <Box sx={{textAlign: 'center'}}>
-                        <Typography>98&deg;F</Typography>
-                    </Box>
-                </Card>
-                <Card sx={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '10px 10px', minWidth: '13vw', borderRadius: '20px'}}>
-                    <Box sx={{display: 'flex', justifyContent: 'center'}}>
-                        <Typography>10 PM</Typography>
-                    </Box>
-                    <Box sx={{display: 'flex', justifyContent: 'center'}}>
-                        <NightlightIcon/>
-                    </Box>
-                    <Divider/>
-                    <Box sx={{textAlign: 'center'}}>
-                        <Typography>98&deg;F</Typography>
-                    </Box>
-                </Card>
-                <Card sx={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '10px 10px', minWidth: '13vw', borderRadius: '20px'}}>
-                    <Box sx={{display: 'flex', justifyContent: 'center'}}>
-                        <Typography>11 PM</Typography>
-                    </Box>
-                    <Box sx={{display: 'flex', justifyContent: 'center'}}>
-                        <NightlightIcon/>
-                    </Box>
-                    <Divider/>
-                    <Box sx={{textAlign: 'center'}}>
-                        <Typography>98&deg;F</Typography>
-                    </Box>
-                </Card>
+                <HourComponent period={hourlyPeriods[0]}/>
+                <HourComponent period={hourlyPeriods[1]}/>
+                <HourComponent period={hourlyPeriods[2]}/>
+                <HourComponent period={hourlyPeriods[3]}/>
+                <HourComponent period={hourlyPeriods[4]}/>
+                <HourComponent period={hourlyPeriods[5]}/>
+                <HourComponent period={hourlyPeriods[6]}/>
+                <HourComponent period={hourlyPeriods[7]}/>
+                <HourComponent period={hourlyPeriods[8]}/>
+                <HourComponent period={hourlyPeriods[9]}/>
+                <HourComponent period={hourlyPeriods[10]}/>
+                <HourComponent period={hourlyPeriods[11]}/>
             </Stack>
         </Box>
         <Divider/>
@@ -184,7 +70,7 @@ return(
                         <Divider/>
                         <Box>
                             <Typography variant='h5'>Todays temperature is</Typography>
-                            <Typography variant='h4'>63&deg;F</Typography>
+                            <Typography variant='h4'>{dailyWeatherData.temp}&deg;F</Typography>
                         </Box>
                     </Box>
                 </Card>
@@ -197,7 +83,7 @@ return(
                         <Divider/>
                         <Box>
                             <Typography variant='h5'>Todays dew point is</Typography>
-                            <Typography variant='h4'>69&deg;F</Typography>
+                            <Typography variant='h4'>{dailyWeatherData.dewPoint}&deg;F</Typography>
                         </Box>
                     </Box>
                 </Card>
@@ -209,7 +95,7 @@ return(
                         <Divider/>
                         <Box>
                             <Typography variant='h5'>Todays humidity is</Typography>
-                            <Typography variant='h4'>79%</Typography>
+                            <Typography variant='h4'>{dailyWeatherData.relHum}%</Typography>
                         </Box>
                     </Box>
                 </Card>
@@ -220,8 +106,8 @@ return(
                         </Box>
                         <Divider/>
                         <Box>
-                            <Typography variant='h5'>5 to 10 Miles Per Hour</Typography>
-                            <SouthWestIcon sx={{fontSize: '34px'}}/>
+                            <Typography variant='h5'>{dailyWeatherData.windSpeed}</Typography>
+                            <WindDirectionIcon day={dailyWeatherData} sx={{fontSize: '34px'}}/>
                         </Box>
                     </Box>
                 </Card>
@@ -233,7 +119,7 @@ return(
                         <Divider/>
                         <Box>
                             <Typography variant='h5'>Todays UV index is</Typography>
-                            <Typography variant='h4'>9</Typography>
+                            <Typography variant='h4'>{uvVal}</Typography>
                         </Box>
                     </Box>
                 </Card>
